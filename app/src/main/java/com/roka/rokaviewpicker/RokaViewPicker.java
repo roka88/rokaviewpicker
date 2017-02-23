@@ -199,7 +199,7 @@ public class RokaViewPicker<T extends View> extends ScrollView implements View.O
             View indexView = mInsideLinearLayout.getChildAt(index);
             if (mAutoScroll) {
                 mAutoScroll = false;
-                if (this.getScrollY() - index * childHeight <= (index + 1) * childHeight - getScrollY()) {
+                if (this.getScrollY() - index * childHeight <= (index + 1) * childHeight - this.getScrollY()) {
                     smoothScrollTo(0, index * childHeight);
                 } else {
                     smoothScrollTo(0, (index + 1) * childHeight);
@@ -224,7 +224,7 @@ public class RokaViewPicker<T extends View> extends ScrollView implements View.O
                 ((ScrollView)v).requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_UP:
-                postDelayed(new ScrollStateHandler(), 100);
+                postDelayed(new ScrollStateHandler(), 30);
                 ((ScrollView)v).requestDisallowInterceptTouchEvent(false);
                 break;
         }
@@ -237,11 +237,11 @@ public class RokaViewPicker<T extends View> extends ScrollView implements View.O
         @Override
         public void run() {
             long currentTime = System.currentTimeMillis();
-            if ((currentTime - lastScrollUpdate) > 50) {
+            if ((currentTime - lastScrollUpdate) > 20) {
                 lastScrollUpdate = -1;
                 onScrollEnd();
             } else {
-                postDelayed(this, 100);
+                postDelayed(this, 30);
             }
         }
     }
